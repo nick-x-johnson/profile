@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nick Johnson</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9fafb;
+      color: #111827;
+      line-height: 1.6;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body.dark {
+      background-color: #111827;
+      color: #f3f4f6;
+    }
+    a {
+      color: #2563eb;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    body.dark a {
+      color: #93c5fd;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+    h1, h2 {
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+    h1 {
+      font-size: 2.5rem;
+      text-align: center;
+    }
+    h2 {
+      font-size: 1.75rem;
+      margin-top: 2rem;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 0.25rem;
+    }
+    body.dark h2 {
+      border-color: #374151;
+    }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    li {
+      margin-bottom: 0.5rem;
+    }
+    .section {
+      margin-bottom: 2rem;
+    }
+    .footer {
+      text-align: center;
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin-top: 4rem;
+      padding-bottom: 1rem;
+    }
+    body.dark .footer {
+      color: #b4bbc7;
+    }
+    .toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background-color: transparent;
+      color: #6b7280;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 2.8rem;
+      transition: color 0.3s, transform 0.3s;
+    }
+    .toggle:hover {
+      transform: scale(1.1);
+    }
+    body.dark .toggle {
+      color: #d1d5db;
+    }
+    .subtitle {
+      text-align: center;
+      color: #4b5563; /* unchanged in light mode */
+    }
+    body.dark .subtitle {
+      color: #b4bbc7; /* lighter grey in dark mode */
+    }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+      .toggle {
+        font-size: 2.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="toggle" id="themeToggle" aria-label="Toggle Dark Mode">◐</button>
+  <div class="container">
+    <header class="section">
+      <h1>Nick Johnson</h1>
+      <p class="subtitle">Physicist | Quantum Computing Researcher | Engineer</p>
+    </header>
+
+    <section class="section">
+      <h2>About</h2>
+      <p>I'm a researcher with a background in trapped-ion quantum computing. My current interests span from quantum error correction to AI. This page collects my latest work, publications, and projects.</p>
+    </section>
+
+    <section class="section">
+      <h2>LinkedIn</h2>
+      <ul>
+        <li><a href="https://www.linkedin.com/in/nickianjohnson/" target="_blank">View my profile</a></li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Publications</h2>
+      <ul>
+        <li><a href="https://arxiv.org/abs/2409.04628" target="_blank">Deltaflow Hardware & Deltakit Software: A real-time, low latency QEC stack, <i>IEEE Quantum Computing and Engineering</i> (2025)</a></li>
+        <li><a href="https://arxiv.org/abs/2310.05229" target="_blank">Design verification of the quantum control stack, <i>DevCon Europe</i> (2023)</a></li>
+        <li><a href="https://www.nature.com/articles/s41467-022-35285-3" target="_blank">A high-fidelity quantum matter-link between ion-trap microchip modules,<i>Nature Communications</i> (2022)</a></li>
+        <li><a href="https://iopscience.iop.org/article/10.1088/2058-9565/ac5d7d/meta" target="_blank">A scalable helium gas cooling system for trapped-ion applications, <i>Qu. Sci. Tech.</i> (2022)</a></li>
+        <li><a href="https://sussex.figshare.com/articles/thesis/A_scalable_demonstrator_for_trapped-ion_quantum_computing_using_modules_connected_by_electric_fields/23487251?file=41195876" target="_blank">PhD Thesis: A scalable demonstrator for trapped-ion quantum computing using modules connected by electric fields, <i>University of Sussex Archive</i> (2021)</a></li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Personal Projects</h2>
+      <ul>
+        <li><a href="https://blastcrater.net" target="_blank">BlastCrater: A Warhammer 40k simulator</a></li>
+        <li><a href="#" target="_blank">SpinMotion: A fast trapped-ion quantum simulator</a></li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>News</h2>
+      <ul>
+        <li><a href="https://www.quantinuum.com/blog/introducing-helios-the-most-accurate-quantum-computer-in-the-world" target="_blank">Quantinuum Helios release</a></li>
+        <li><a href="https://deltakit.riverlane.com/" target="_blank">Deltakit: An open-source toolkit for quantum error correction from Riverlane</a></li>
+      </ul>
+    </section>
+
+    <footer class="footer">
+      © 2025 Nick Johnson. All rights reserved.
+    </footer>
+  </div>
+  <script>
+    const toggleButton = document.getElementById('themeToggle');
+    function updateIcon() {
+      toggleButton.textContent = document.body.classList.contains('dark') ? '◑' : '◐';
+    }
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark'));
+      updateIcon();
+    }
+    toggleButton.addEventListener('click', toggleDarkMode);
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark');
+    }
+    updateIcon();
+  </script>
+</body>
+</html>
