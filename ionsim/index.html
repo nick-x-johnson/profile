@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Trapped Ion String — Axial Modes (HTML)</title>
+  <title>Trapped Ion String — Axial Modes</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -43,7 +43,7 @@
     </div>
   </div>
 
-  <p class="text-[#cbd5e1] max-w-[900px] leading-relaxed text-justify mt-6 px-4 text-base sm:text-lg">
+  <p class="text-[#cbd5e1] max-w-[900px] leading-relaxed text-left mt-6 px-4 text-base sm:text-lg">
     IonSim is a physics simulator demonstrating the collective dynamics of an ion string
     within a linear Paul trap. In the animation above, an initial momentum kick is applied
     to the leftmost ion, and the resulting motion is a superposition of normal modes.
@@ -85,7 +85,7 @@
     <div class="bg-[#020617] p-4 rounded-lg mb-2 overflow-x-auto text-sm sm:text-base">
       $$z_i(t) = z_{Eq,i} + \sum_{m=1}^{N} \left[ A_m \cos(\omega_m t) + B_m \sin(\omega_m t) \right] v_{m,i}$$
     </div>
-      <ul class="list-disc ml-6 mb-6 space-y-2">
+    <ul class="list-disc ml-6 mb-6 space-y-2">
       <li><strong>Visualisation:</strong> Select from the dropdown menu above to display the individual modes of oscillation for the ion string.</li>
     </ul>
   </div>
@@ -164,7 +164,7 @@
     globals.zmin = Math.min(...zEq);
     globals.zmax = Math.max(...zEq);
 
-    // 2) Hessian + eigenmodes (Logic remains same)
+    // 2) Hessian + eigenmodes
     const H = Array.from({length:N},()=>new Float64Array(N));
     for(let i=0;i<N;i++)
       for(let j=0;j<N;j++)
@@ -236,11 +236,11 @@
       ctx.fillStyle='#071033'; 
       ctx.fillRect(0,0,widthCSS,heightCSS);
 
-      // --- Responsive Visual Constants ---
+      // --- Responsive visual constants for screen size scaling ---
       const ionRadius = 18 * baseScale;
       const visualY = midY; 
 
-      // Glow line (Proportional thickness)
+      // Glow line
       ctx.save();
       const grad=ctx.createLinearGradient(globals.left,0,globals.right,0);
       grad.addColorStop(0,'rgba(79,70,229,0.06)');
@@ -262,7 +262,7 @@
         const kin=0.5*v[i]*v[i]; 
         const glow=Math.min(1,kin*25+Math.abs(x[i])*2);
 
-        // Outer Glow (Proportional blur and size)
+        // Outer Glow
         ctx.save(); 
         ctx.fillStyle=`rgba(79,70,229,${0.06+0.25*glow})`; 
         ctx.filter=`blur(${ (6 + 8 * glow) * baseScale }px)`; 
@@ -270,7 +270,7 @@
         ctx.arc(cx,cy, (ionRadius * 2.5) + (30 * glow * baseScale), 0, Math.PI*2); 
         ctx.fill(); ctx.restore();
 
-        // Inner Sphere (Proportional gradient and shadow)
+        // Inner Sphere
         ctx.save(); 
         const g=ctx.createRadialGradient(cx-ionRadius/3, cy-ionRadius/3, ionRadius*0.2, cx, cy, ionRadius);
         g.addColorStop(0,'#60a5fa'); g.addColorStop(0.6,'#2563eb'); g.addColorStop(1,'#1e40af');
@@ -285,7 +285,7 @@
       requestAnimationFrame(draw);
     }
 
-    // Initialize
+    // Initialise
     setCanvasSize();
     window.addEventListener('resize', setCanvasSize);
     requestAnimationFrame(draw);
