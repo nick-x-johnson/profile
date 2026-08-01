@@ -431,12 +431,20 @@ input:focus-visible { outline: 2px solid rgba(224, 231, 239, 0.52); outline-offs
 
 @media (max-width: 480px) {
   .date-picker-row {
-    grid-template-columns: minmax(0, 1fr) minmax(82px, 88px);
-    gap: 12px;
+    grid-template-columns: minmax(0, calc(100% - 98px)) 82px;
+    column-gap: 14px;
   }
   .date-picker-row .date-picker-field,
   .date-picker-row .era-picker-field {
     min-width: 0;
+  }
+  .date-picker-row input,
+  .date-picker-row select {
+    min-width: 0;
+  }
+  .date-picker-row .date-picker-field input {
+    width: calc(100% - 4px);
+    justify-self: start;
   }
   .masthead p { display: none; }
   .masthead .icon-button { display: none; }
