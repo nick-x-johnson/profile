@@ -430,20 +430,37 @@ input:focus-visible { outline: 2px solid rgba(224, 231, 239, 0.52); outline-offs
 }
 
 @media (max-width: 480px) {
+  .modal form { padding: 20px; }
+  .modal label { min-width: 0; }
+  .modal input,
+  .modal select {
+    display: block;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .modal input[type="date"],
+  .modal input[type="time"] {
+    -webkit-appearance: none;
+    appearance: none;
+    inline-size: 100%;
+    max-inline-size: 100%;
+  }
+  .modal input[type="date"]::-webkit-date-and-time-value,
+  .modal input[type="time"]::-webkit-date-and-time-value {
+    min-width: 0;
+    text-align: left;
+  }
   .date-picker-row {
-    grid-template-columns: minmax(0, calc(100% - 98px)) 82px;
-    column-gap: 14px;
+    grid-template-columns: minmax(0, 1fr) 76px;
+    column-gap: 12px;
   }
   .date-picker-row .date-picker-field,
   .date-picker-row .era-picker-field {
     min-width: 0;
-  }
-  .date-picker-row input,
-  .date-picker-row select {
-    min-width: 0;
+    overflow: hidden;
   }
   .date-picker-row .date-picker-field input {
-    width: calc(100% - 4px);
+    width: calc(100% - 6px);
     justify-self: start;
   }
   .masthead p { display: none; }
