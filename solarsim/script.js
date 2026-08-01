@@ -407,11 +407,12 @@
   ].map((id) => [id, document.getElementById(id)]));
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isMobileViewport = () => window.matchMedia('(max-width: 760px)').matches || window.innerWidth <= 760;
   const state = {
     timestamp: Date.now(),
     displayTimeZoneKey: 'utc',
     dialogTimeZoneKey: 'utc',
-    paused: reducedMotion,
+    paused: reducedMotion && !isMobileViewport(),
     direction: 1,
     speedDaysPerSecond: 30,
     scaleMode: 'compressed',
@@ -746,7 +747,8 @@
     for (const planet of ordered) {
       const screen = state.screenPositions.get(planet.id);
       if (!screen || screen.x < 0 || screen.x > state.width || screen.y < 0 || screen.y > state.height) continue;
-      if (state.width < 620 && !['earth', 'mars', 'jupiter', 'saturn'].includes(planet.id) && planet.id !== state.selected && planet.id !== state.hovered) continue;
+      const allowExtraLabelsOnMobile = isMobileViewport() && state.width < 620;
+      if (state.width < 620 && !allowExtraLabelsOnMobile && !['earth', 'mars', 'jupiter', 'saturn'].includes(planet.id) && planet.id !== state.selected && planet.id !== state.hovered) continue;
 
       const textWidth = ctx.measureText(planet.name).width;
       const candidates = [
