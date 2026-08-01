@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#080b10" />
+  <meta name="description" content="A design-led, offline heliocentric Solar System simulator using JPL approximate planetary elements." />
+  <title>Solar System — Heliocentric Simulator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app" aria-label="Solar System simulator">
+    <canvas id="space" aria-label="Top-down animated view of the Solar System"></canvas>
+
+    <header class="masthead glass-edge">
+      <div>
+        <h1>Solar System</h1>
+        <p>Heliocentric view</p>
+      </div>
+      <button id="aboutButton" class="icon-button" type="button" aria-label="About this simulator">i</button>
+    </header>
+
+    <button id="dateButton" class="date-readout glass-edge" type="button" aria-label="Choose simulation date and display time zone">
+      <span id="dateMain">—</span>
+    </button>
+
+    <div class="model-note glass-edge" aria-label="Astronomical model">
+      <span class="status-dot"></span>
+      <span id="modelText">JPL approximate ephemeris · 1800–2050</span>
+    </div>
+
+    <section class="view-controls glass-edge" aria-label="View controls">
+      <label class="compact-toggle">
+        <input id="labelsToggle" type="checkbox" checked />
+        <span>Labels</span>
+      </label>
+      <label class="compact-toggle">
+        <input id="orbitsToggle" type="checkbox" checked />
+        <span>Orbits</span>
+      </label>
+      <label class="compact-toggle">
+        <input id="trailsToggle" type="checkbox" checked />
+        <span>Trails</span>
+      </label>
+      <button id="scaleButton" class="text-button" type="button" aria-label="Change distance scale">Compressed</button>
+      <button id="resetViewButton" class="icon-button small" type="button" aria-label="Reset zoom" data-tooltip="Reset zoom">⌾</button>
+    </section>
+
+    <section class="timeline glass-edge" aria-label="Simulation timeline">
+      <button id="reverseButton" class="transport-button" type="button" aria-label="Run time backwards" data-tooltip="Run backwards">−</button>
+      <button id="playButton" class="transport-button primary" type="button" aria-label="Pause simulation">Ⅱ</button>
+      <button id="forwardButton" class="transport-button" type="button" aria-label="Run time forwards" data-tooltip="Run forwards">+</button>
+      <span class="divider" aria-hidden="true"></span>
+      <label class="speed-label">
+        <span class="sr-only">Simulation speed</span>
+        <select id="speedSelect" aria-label="Simulation speed">
+          <option value="0.000011574074">Real time</option>
+          <option value="1">1 day / sec</option>
+          <option value="10">10 days / sec</option>
+          <option value="30" selected>30 days / sec</option>
+          <option value="100">100 days / sec</option>
+          <option value="365.256">1 year / sec</option>
+          <option value="3652.56">10 years / sec</option>
+          <option value="36525.6">100 years / sec</option>
+        </select>
+      </label>
+      <button id="nowButton" class="text-button strong" type="button">Now</button>
+    </section>
+
+    <aside id="planetCard" class="planet-card glass-panel" hidden aria-live="polite">
+      <button id="closePlanetCard" class="icon-button card-close" type="button" aria-label="Close planet details">×</button>
+      <div class="planet-heading">
+        <span id="planetSwatch" class="planet-swatch"></span>
+        <div>
+          <p class="eyebrow">Selected planet</p>
+          <h2 id="planetName">Earth</h2>
+        </div>
+      </div>
+      <dl class="metrics">
+        <div><dt>From Sun</dt><dd id="planetDistance">—</dd></div>
+        <div><dt>From Earth (approx.)</dt><dd id="earthDistance">—</dd></div>
+        <div><dt>Kepler speed</dt><dd id="planetVelocity">—</dd></div>
+        <div><dt>Longitude</dt><dd id="planetLongitude">—</dd></div>
+        <div><dt>Latitude</dt><dd id="planetLatitude">—</dd></div>
+        <div><dt>Orbital period</dt><dd id="planetPeriod">—</dd></div>
+      </dl>
+      <div class="card-actions">
+        <button id="focusButton" class="action-button" type="button">Focus</button>
+        <button id="clearFocusButton" class="action-button muted" type="button" hidden>Overview</button>
+      </div>
+    </aside>
+
+    <dialog id="dateDialog" class="modal glass-panel">
+      <form id="dateForm" method="dialog">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow">Simulation time</p>
+            <h2>Choose a date</h2>
+          </div>
+          <button id="dateDialogClose" class="icon-button dialog-close" type="button" aria-label="Close date picker">×</button>
+        </div>
+        <div class="date-picker-row">
+          <label class="date-picker-field">
+            <span>Date</span>
+            <input id="dateInput" type="date" min="0001-01-01" max="3000-12-31" required />
+          </label>
+          <label class="era-picker-field">
+            <span>Era</span>
+            <select id="eraInput" aria-label="Date era">
+              <option value="CE" selected>CE</option>
+              <option value="BCE">BCE</option>
+            </select>
+          </label>
+        </div>
+        <label>
+          <span>Time</span>
+          <input id="timeInput" type="time" step="1" required />
+        </label>
+        <label>
+          <span>Time zone</span>
+          <select id="timeZoneInput" aria-label="Display time zone">
+            <option value="utc">UTC</option>
+            <option value="london">London (GMT/BST)</option>
+            <option value="new-york">New York (EST/EDT)</option>
+            <option value="los-angeles">Los Angeles (PST/PDT)</option>
+            <option value="dubai">Dubai (GST)</option>
+            <option value="delhi">Delhi (IST)</option>
+            <option value="tokyo">Tokyo (JST)</option>
+            <option value="sydney">Sydney (AEST/AEDT)</option>
+          </select>
+        </label>
+        <p class="dialog-note">Uses the tighter 1800–2050 fit near today and a smoothly blended long-range fit to 3000 BCE–3000 CE. The selected time zone uses IANA daylight-saving rules from 1900–2100 and a fixed standard offset outside that interval.</p>
+        <div id="dateWarning" class="warning" hidden></div>
+        <div class="modal-actions">
+          <button id="dialogNowButton" class="action-button muted" type="button">Use now</button>
+          <button class="action-button" value="apply" type="submit">Apply</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="aboutDialog" class="modal about-modal glass-panel">
+      <form method="dialog">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow">Methodology</p>
+            <h2>A calm astronomical instrument</h2>
+          </div>
+          <button class="icon-button dialog-close" value="cancel" aria-label="Close information">×</button>
+        </div>
+        <div class="about-copy">
+          <p>The view is heliocentric, looking down on the J2000 ecliptic plane from the north. Planet markers are symbolic; orbital distances are not the same scale as planet sizes.</p>
+          <p>Positions are calculated locally from JPL’s published approximate Keplerian elements and secular rates. The tighter 1800–2050 fit is retained around today; JPL’s 3000 BCE–3000 CE fit is used outside that interval, with smooth Cartesian blending from 1800–1810 and 2040–2050. It is suitable for accurate visualisation, not spacecraft navigation.</p>
+          <p><strong>Compressed</strong> mode applies a logarithmic radial transform while preserving each planet’s true angular direction. <strong>True distance</strong> uses a linear AU scale.</p>
+          <p>Drag to pan, scroll or pinch to zoom, and double-click to reset. Keyboard: Space play/pause, N now, R reset, L labels, O orbits, Escape close.</p>
+          <p class="fine-print">Earth is represented by JPL’s Earth–Moon barycentre. “From Earth” distances are therefore geometric EMB distances. UTC is converted toward ephemeris time using the leap-second history through 2026 and NASA ΔT polynomials elsewhere; TT is used as a sub-millisecond-to-millisecond proxy for TDB. The displayed speed is the two-body vis-viva speed of the fitted ellipse, or the numerical speed of the blended trajectory during transition windows. Civil-zone conversions use the browser’s IANA time-zone database from 1900–2100. Outside that interval, clean fixed standard offsets are shown because ancient and far-future daylight-saving rules are undefined.</p>
+        </div>
+        <div class="modal-actions">
+          <button class="action-button" value="close">Close</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast glass-edge" role="status" aria-live="polite" hidden></div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
