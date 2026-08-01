@@ -405,12 +405,19 @@ input:focus-visible { outline: 2px solid rgba(224, 231, 239, 0.52); outline-offs
     right: auto;
     left: 50%;
     bottom: calc(max(13px, env(safe-area-inset-bottom)) + 58px);
+    width: min(calc(100vw - 24px), 320px);
     max-width: calc(100vw - 24px);
+    justify-content: center;
     transform: translateX(-50%);
   }
   .compact-toggle span, .text-button { padding: 7px; font-size: 8px; }
-  .timeline { bottom: max(12px, env(safe-area-inset-bottom)); max-width: calc(100vw - 24px); }
-  .speed-label select { width: 105px; font-size: 9px; }
+  .timeline {
+    bottom: max(12px, env(safe-area-inset-bottom));
+    width: min(calc(100vw - 24px), 320px);
+    max-width: calc(100vw - 24px);
+    justify-content: center;
+  }
+  .speed-label select { width: 121px; font-size: 9px; }
   .planet-card {
     top: auto;
     right: max(12px, env(safe-area-inset-right));
@@ -423,14 +430,21 @@ input:focus-visible { outline: 2px solid rgba(224, 231, 239, 0.52); outline-offs
 }
 
 @media (max-width: 480px) {
-  .date-picker-row { grid-template-columns: minmax(0, 1fr) 76px; }
+  .date-picker-row {
+    grid-template-columns: minmax(0, 1fr) minmax(82px, 88px);
+    gap: 12px;
+  }
+  .date-picker-row .date-picker-field,
+  .date-picker-row .era-picker-field {
+    min-width: 0;
+  }
   .masthead p { display: none; }
   .masthead .icon-button { display: none; }
   .date-readout { max-width: 52vw; }
   .compact-toggle:nth-child(3) { display: none; }
   .timeline { gap: 2px; }
   .transport-button { width: 31px; height: 31px; }
-  .speed-label select { width: 92px; padding-left: 6px; }
+  .speed-label select { width: 112px; padding-left: 6px; }
   .timeline .text-button { padding-inline: 6px; }
   .metrics { grid-template-columns: 1fr 1fr; }
 }
