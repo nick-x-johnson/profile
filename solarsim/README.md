@@ -1,6 +1,6 @@
-# Solar System Simulator — hybrid verified build
+# Solar System Simulator
 
-A design-led, single-page heliocentric Solar System visualisation built with static HTML, CSS and JavaScript.
+A design-led, single-page Solar System visualisation built with static HTML, CSS and JavaScript.
 
 ## Run it
 
